@@ -58,22 +58,33 @@ function validateReleaseBranch(releaseBranch): void {
 
 const currentReleaseBranchName = getCurrentRemoteReleaseBranch();
 const previousReleaseBranchName = getPreviousRemoteReleaseBranch();
+const releaseBranchName = currentReleaseBranchName.replace('origin/', '');
+
+// switch to the current release branch
+logger(`switch to the current release branch`);
+shell.exec(`git checkout ${releaseBranchName}`);
 
 changeLogGeneratorUtils.updateChangeLog(
   currentReleaseBranchName,
   previousReleaseBranchName,
 );
-logger(`\nCommit auto-generated changelog`);
-shell.exec(`git add ${constants.CHANGE_LOG_PATH}`);
-const branchName = currentReleaseBranchName.replace('origin/', '');
-shell.exec(`git commit -m "chore: generated CHANGELOG for ${branchName}"`);
-shell.exec(`git push -u origin ${branchName}`);
 
-logger(`\nOpening changelog for review`);
-//if code-insiders isn't yet set in the PATH or running user doesn't have insiders,
-//this will use VS Code instead
-shell.exec(
-  `code-insiders ${constants.CHANGE_LOG_PATH} || code ${constants.CHANGE_LOG_PATH}`,
-);
+// if running on github actions
+if (process.env.GITHUB_ACTIONS) {
+  logger(`\nCommit auto-generated changelog`);
+  shell.exec(`git add ${constants.CHANGE_LOG_PATH}`);
+
+  shell.exec(
+    `git commit -m "chore: generated CHANGELOG for ${releaseBranchName}"`,
+  );
+  shell.exec(`git push -u origin ${releaseBranchName}`);
+} else {
+  logger(`\nOpening changelog for review`);
+  //if code-insiders isn't yet set in the PATH or running user doesn't have insiders,
+  //this will use VS Code instead
+  shell.exec(
+    `code-insiders ${constants.CHANGE_LOG_PATH} || code ${constants.CHANGE_LOG_PATH}`,
+  );
+}
 
 process.exit(0);
