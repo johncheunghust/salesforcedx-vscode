@@ -54,8 +54,6 @@ jobs:
         run: |
           echo "Creating a ${{ github.event.inputs.releaseType || 'minor' }} release from branch release/v$(node -pe "require('./packages/salesforcedx-vscode/package.json').version")"
           node scripts/create-release-branch.js
-      - name: Generate CHANGELOG
-        run: npm run changelog
       - id: result
         run: echo "result=${{ job.status }}" >> $GITHUB_OUTPUT
       - id: version
