@@ -65,10 +65,9 @@ changeLogGeneratorUtils.updateChangeLog(
 );
 logger(`\nCommit auto-generated changelog`);
 shell.exec(`git add ${constants.CHANGE_LOG_PATH}`);
-shell.exec(
-  `git commit -m "chore: generated CHANGELOG for ${currentReleaseBranchName}"`,
-);
-shell.exec(`git push -u origin ${currentReleaseBranchName}`);
+const branchName = currentReleaseBranchName.replace('origin/', '');
+shell.exec(`git commit -m "chore: generated CHANGELOG for ${branchName}"`);
+shell.exec(`git push -u origin ${branchName}`);
 
 logger(`\nOpening changelog for review`);
 //if code-insiders isn't yet set in the PATH or running user doesn't have insiders,
