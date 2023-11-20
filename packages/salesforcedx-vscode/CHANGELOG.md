@@ -1,5 +1,7 @@
 # 59.7.4 - November 22, 2023
 
+# 59.7.4 - November 22, 2023
+
 ## Added
 
 #### salesforcedx-vscode-apex
