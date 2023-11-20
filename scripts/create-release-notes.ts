@@ -66,7 +66,7 @@ changeLogGeneratorUtils.updateChangeLog(
 logger(`\nCommit auto-generated changelog`);
 shell.exec(`git add ${constants.CHANGE_LOG_PATH}`);
 shell.exec(
-  `git commit -m "chore: "generated CHANGELOG for ${getCurrentRemoteReleaseBranch()}"`,
+  `git commit -m "chore: generated CHANGELOG for ${getCurrentRemoteReleaseBranch()}"`,
 );
 
 logger(`\nOpening changelog for review`);
