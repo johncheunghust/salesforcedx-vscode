@@ -63,3 +63,9 @@ jobs:
       - run: echo "Release Version is ${{ steps.version.outputs.version }}"
       - run: echo “Release Type is ${{ github.event.inputs.releaseType || 'minor' }}”
       - run: echo “Release Branch is ${{ steps.branch.outputs.branch }}”
+
+  trigger_generate_changelog_workflow:
+    if: ${{ needs.create_branch.result == 'success' }} # Only run this if the previous job was successful
+    needs: create_branch
+    name: 'Trigger Generate Changelog Workflow'
+    uses: ./.github/workflows/generateChangelog.yml
