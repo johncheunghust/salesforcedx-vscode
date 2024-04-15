@@ -1,3 +1,11 @@
+# 59.28.0 - April 17, 2024
+
+## Added
+
+#### salesforcedx-vscode-apex
+
+- Add vscode setting for Apex LS trace level ([PR #5235](https://github.com/forcedotcom/salesforcedx-vscode/pull/5235))
+
 # 59.5.1 - November 16, 2023
 
 ## Added
